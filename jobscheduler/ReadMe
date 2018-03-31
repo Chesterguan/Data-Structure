@@ -1,0 +1,17 @@
+Files Contained:
+	1.Makefile
+	2.jobscheduler.java
+	3.MinHeap.java
+	4.RBTree.java
+	5.Process.java
+	6.input.txt
+	7.sample_input1.txt
+
+To Execute the Program:
+	Firstly copy the input file under the directory
+Command:
+	1. make
+	2. java jobscheduler <input file name>
+
+Result:
+	See in the "output_file.txt"
