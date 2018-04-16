@@ -29,17 +29,16 @@ public class jobscheduler {
 		hp=new MinHeap();// create the heap
 		int flag=0;
 		int insert_time=0;
-		System.out.println("Start!!");
-		//System.out.println("The global time and insert time is"+ global_time+ ","+insert_time);
+		//System.out.println("Start!!");
+		////System.out.println("The global time and insert time is :   "+ global_time+ "  ,  "+insert_time);
 		while(input.hasNextLine()) {
 			flag=0;
 			//System.out.println("--------------print the arraylist --------");
-			/*
+			
 			for(int k=0;k<processes.size();k++) {
-				System.out.println("global time :"+global_time+"  ID: "+processes.get(k).processId+": "+processes.get(k).execTime);
+				//System.out.println("global time :"+global_time+"  ID: "+processes.get(k).processId+": "+processes.get(k).execTime);
 			}
-			System.out.println("the value of node is "+node_count);
-			*/
+			//System.out.println("the number of nodes is "+node_count);
 			String line = input.nextLine();
 			//System.out.println(line);
 			int leng=line.length();
@@ -50,7 +49,7 @@ public class jobscheduler {
 			for(int i=0;i<line.length();i++) { // we need to identify whether we have comma or not
 				if(word[i]==':'){
 					a=i;
-					//System.out.println("a is"+a);
+					////System.out.println("a is"+a);
 				}
 				if(word[i]=='(') {	
 					b=i;
@@ -64,7 +63,7 @@ public class jobscheduler {
 			for(int i=0;i<b-a-2;i++) {
 				inscomman_c[i]=word[a+2+i];
 			}
-			//System.out.println(new String(instime_c));
+			////System.out.println(new String(instime_c));
 			insert_time=Integer.parseInt(new String(instime_c)); // we need to notice that change the type
 			String command= new String(inscomman_c);
 			switcher(command,leng,word,insert_time,processes,jobs,b,flag);
@@ -74,7 +73,7 @@ public class jobscheduler {
 		input.close();
 	}
 	public static void switcher(String command,int leng,char[]word ,int insert_time,ArrayList<Process>processes,ArrayList<Process>jobs,int b,int flag) {
-		//System.out.println(command);
+		//System.out.println("COMMAND IS :"+command);
 		String JobID="";
 		String JobID2="";
 		int JobID_int=0;
@@ -86,7 +85,6 @@ public class jobscheduler {
 			for(int i=0;i<leng;i++) { // we need to identify whether we have comma or not
 				if(word[i]==','){
 					c=i;
-					//System.out.println("c is"+c);
 				}
 				if(word[i]==')') {	
 					d=i;
@@ -101,7 +99,7 @@ public class jobscheduler {
 				insvar2_c[k]=word[c+1+k];
 			}
 			JobID_int=Integer.parseInt(new String(insvar1_c));
-			//System.out.println(JobID_int);
+			//System.out.println("Job_ID IS: "+JobID_int);
 			total_time=Integer.parseInt(new String(insvar2_c)); // read the input files;
 			//long execution_time=0;
 			while(global_time<insert_time) {
@@ -122,7 +120,6 @@ public class jobscheduler {
 			for(int i=0;i<leng;i++) { // we need to identify whether we have comma or not
 				if(word[i]==','){
 					c=i;
-					//System.out.println("c is"+c);
 				}
 				if(word[i]==')') {	
 					d=i;
@@ -166,11 +163,10 @@ public class jobscheduler {
 			while(global_time<insert_time) {
 				scheduler(processes,jobs,flag);
 			}
-			//System.out.println("Enter the nextjob");
+			//System.out.println("------------Enter the nextjob-----------");
 			for(int i=0;i<leng;i++) { // we need to identify whether we have comma or not
 				if(word[i]==','){
 					c=i;
-					//System.out.println("c is"+c);
 				}
 				if(word[i]==')') {	
 					d=i;
@@ -189,14 +185,13 @@ public class jobscheduler {
 			}
 			break;
 		case "PreviousJob":
-			//System.out.println("Enter the previousjob");
+			//System.out.println("---------Enter the previousjob-----------");
 			while(global_time<insert_time) {
 				scheduler(processes,jobs,flag);
 			}
 			for(int i=0;i<leng;i++) { // we need to identify whether we have comma or not
 				if(word[i]==','){
 					c=i;
-					//System.out.println("c is"+c);
 				}
 				if(word[i]==')') {	
 					d=i;
@@ -218,8 +213,8 @@ public class jobscheduler {
 	}
 	public static void printJob(String JobID1,String JobID2,ArrayList<Process> processes,ArrayList<Process>jobs) throws IOException{  // rewrite to get the order of IDs
 		FileWriter output = new FileWriter("output_file.txt",true);
-		int count1=1000;
-		int count2=1000;
+		int count1=2000;
+		int count2=2000;
 		long execution_time1=0;
 		long execution_time2=0;
 		long total_time1=0;
@@ -237,7 +232,7 @@ public class jobscheduler {
 		}
 		if(JobID2=="No") { // it means there is only one index
 			//System.out.println("This print operation has only one var");
-			if(count1==1000) { // it means the JobID not exist
+			if(count1==2000) { // it means the JobID not exist
 				//System.out.println("global_time : "+global_time+" (0,0,0)"); // cannot find the record
 				output.write("(0,0,0)");
 				output.write(System.getProperty("line.separator")); // to make sure the "/n" is working
@@ -250,6 +245,7 @@ public class jobscheduler {
 			}
 		}
 		else { // there is a range
+			int emptytree=0;
 			int JobID_int2=Integer.parseInt(JobID2);
 			for(int j=0;j<jobs.size();j++) {
 				if(jobs.get(j).processId==JobID_int2) {
@@ -257,31 +253,87 @@ public class jobscheduler {
 					break;
 				}
 			}
-			if(count2==1000) { //there is no such range
-				int B=rbtree.maximum();
-				int C=0;
-				while(B>=JobID_int2) {
-					C=rbtree.previous(B);
-					B=C;
+			if(count2==2000) { //the id is not in the heap
+				if(rbtree.maximum()==null) { // there is empty tree
+					emptytree=1;
+				}else {
+					int B=rbtree.maximum();
+					int C=0;
+					while(B>=JobID_int2) {
+						if(rbtree.previous(B)==null) {
+							// JobID2< minimum
+							break;
+						}
+						C=rbtree.previous(B);
+						B=C;
+					}
+					count2=B;
 				}
-				count2=B;
 			}
-			if(count1==1000) {
-				int B=rbtree.minimum(); // get the key 
-				int C=0;
-				while(B<=JobID_int1) {
-					C=rbtree.next(B);
-					B=C;
+			if(count1==2000) {
+				if(rbtree.minimum()==null) {
+					emptytree=1;
+				}else {
+					int B=rbtree.minimum(); // get the key 
+					int C=0;
+					while(B<=JobID_int1) {
+						if(rbtree.next(B)==null) {
+							//JobID1>=max
+							break;
+						}
+						C=rbtree.next(B);
+						B=C;
+					}
+					count1=B;
 				}
-				count1=B;
+			}
+			else {
+				count1=jobs.get(count1).processId;
 			}
 			// now we get the key of the job .
-			int temp=rbtree.previous(count2);
-			int dd=0;
-			if(count1==count2){
-				dd=1;
+			if(emptytree==1) {
+				//System.out.println("empty tree!");
+				//System.out.println("global_time : "+global_time+" (0,0,0)"); // cannot find the record
+				output.write("(0,0,0)");
+				output.write(System.getProperty("line.separator"));
 			}
-			while(count1<count2) {
+			else { // we have got the range correctly
+				int temp=0;
+				/*
+				if(rbtree.previous(count1)!=null) {
+					count1=rbtree.previous(count1);
+				}
+				*/
+				if(count2==rbtree.maximum()) {
+					// there is only one variable satisfied in the tree
+					temp=count2;
+				}else {
+					temp=rbtree.next(count2);
+				}
+				while(count1<count2) { // to avoid the null situation
+					for(int i=0;i<jobs.size();i++) {
+						if(jobs.get(i).processId==count1) {
+							execution_time2=processes.get(i).execTime;
+							total_time2=processes.get(i).totalTime;
+							//System.out.print("global_time : "+global_time+" ("+processes.get(i).processId+","+execution_time2+","+total_time2+")");
+							output.write("("+processes.get(i).processId+","+execution_time2+","+total_time2+")");
+						}
+					}
+					if(count1<temp) {  // to avoid the null exception
+						if(rbtree.next(count1)==null) {
+							count1=count2;
+							System.out.print(",");
+							output.write(",");							
+							break;
+						}
+						count1=rbtree.next(count1);
+						//System.out.print(",");
+						output.write(",");
+					}else {
+						count1=count2;
+						break;
+					}
+				}
 				for(int i=0;i<jobs.size();i++) {
 					if(jobs.get(i).processId==count1) {
 						execution_time2=processes.get(i).execTime;
@@ -290,28 +342,10 @@ public class jobscheduler {
 						output.write("("+processes.get(i).processId+","+execution_time2+","+total_time2+")");
 					}
 				}
-				if(count1<temp) {  // to avoid the null exception
-					count1=rbtree.next(count1);
-					//System.out.print(",");
-					output.write(",");
-				}else {
-					count1=count2;
-					break;
-				}
+				//System.out.println("");
+				output.write(System.getProperty("line.separator"));
+				
 			}
-			if(dd!=1){
-				output.write(",");
-			}
-			for(int i=0;i<jobs.size();i++) {
-				if(jobs.get(i).processId==count1) {
-					execution_time2=processes.get(i).execTime;
-					total_time2=processes.get(i).totalTime;
-					//System.out.print("global_time : "+global_time+" ("+processes.get(i).processId+","+execution_time2+","+total_time2+")");
-					output.write("("+processes.get(i).processId+","+execution_time2+","+total_time2+")");
-				}
-			}
-			//System.out.println("");
-			output.write(System.getProperty("line.separator"));
 			
 		}	
 			// should print in the file
@@ -326,30 +360,88 @@ public class jobscheduler {
 		}
 		int Job_ID=0;
 		Job_ID=Integer.parseInt(JobID);
-		int count=1000;
+		int count=2000;
 		for(int i=0;i<node_count;i++) {
 			if(jobs.get(i).processId==Job_ID) {
 				count=i;
 				break;
 			}
 		}
-		if(jobs.get(count).processId>=rbtree.maximum() || count==1000) { // cannot find the next one 
-			//System.out.println("(0,0,0)");
-			output.write("(0,0,0)");
-			output.write(System.getProperty("line.separator"));
-			
-		}else {
-			int D= rbtree.next(jobs.get(count).processId);
-			for(int i=0;i<jobs.size();i++) {
-				if(jobs.get(i).processId==D) {
-					count=i;
-					break;
+		if(count==2000) {
+			if(rbtree.maximum()==null) {
+				// tree is empty
+				//System.out.println("(0,0,0)");
+				output.write("(0,0,0)");
+				output.write(System.getProperty("line.separator"));
+			}else {
+				int B =rbtree.maximum();
+				if(B<=Job_ID) {
+					// couldnot find
+					//System.out.println("(0,0,0)");
+					output.write("(0,0,0)");
+					output.write(System.getProperty("line.separator"));
+				}else {
+					int C=0;
+					while(B>Job_ID) {
+						if(rbtree.previous(B)==null) {
+							// B is the biggest one
+							break;
+						}
+						C=rbtree.previous(B);
+						B=C;
+					}
+					count=B;
+					for(int i=0;i<jobs.size();i++) {
+						if(jobs.get(i).processId==count) {
+							count=i;
+							break;// get the index
+						}
+					}
+					int E=0;
+					if(rbtree.next(jobs.get(count).processId)==null) {
+						E= rbtree.maximum();
+					}else {
+						E= rbtree.next(jobs.get(count).processId);
+					}
+
+					for(int i=0;i<jobs.size();i++) {
+						if(jobs.get(i).processId==E) {
+							count=i;
+							break;
+						}
+					}
+					//System.out.println("global_time : "+global_time+" ("+processes.get(count).processId+","+processes.get(count).execTime+","+processes.get(count).totalTime+")");
+					output.write("("+processes.get(count).processId+","+processes.get(count).execTime+","+processes.get(count).totalTime+")");
+					output.write(System.getProperty("line.separator"));
 				}
 			}
+			
+		}else {
+			if(jobs.get(count).processId>=rbtree.maximum()) {
+				//System.out.println("(0,0,0)");
+				output.write("(0,0,0)");
+				output.write(System.getProperty("line.separator"));
+			}
+			else {
+				int D=0;//changed here!
+				if(rbtree.next(jobs.get(count).processId)==null) {
+					D= rbtree.maximum();
+				}else {
+					D= rbtree.next(jobs.get(count).processId);
+				}
+				
+				for(int i=0;i<jobs.size();i++) {
+					if(jobs.get(i).processId==D) {
+						count=i;
+						break;
+					}
+				}
 			//System.out.println("global_time : "+global_time+" ("+processes.get(count).processId+","+processes.get(count).execTime+","+processes.get(count).totalTime+")");
 			output.write("("+processes.get(count).processId+","+processes.get(count).execTime+","+processes.get(count).totalTime+")");
 			output.write(System.getProperty("line.separator"));
+			}
 		}
+		
 		output.close();
 	}
 	public static void previousJob(String JobID,ArrayList<Process>processes,ArrayList<Process>jobs) throws IOException{
@@ -360,33 +452,89 @@ public class jobscheduler {
 		}
 		int Job_ID=0;
 		Job_ID=Integer.parseInt(JobID);
-		int count=1000;
+		int count=2000;
 		for(int i=0;i<node_count;i++) {
 			if(jobs.get(i).processId==Job_ID) {
 				count=i;
 				break;
 			}
 		}
-		if(jobs.get(count).processId<=rbtree.minimum() || count==1000) { // cannot find the previous one 
-			//System.out.println("(0,0,0)");
-			output.write("(0,0,0)");
-			output.write(System.getProperty("line.separator"));
-		}else {
-			int D= rbtree.previous(jobs.get(count).processId);
-			for(int i=0;i<jobs.size();i++) {
-				if(jobs.get(i).processId==D) {
-					count=i;
-					break;
+		if(count==2000) {
+			if(rbtree.minimum()==null) {
+				// tree is empty
+				//System.out.println("(0,0,0)");
+				output.write("(0,0,0)");
+				output.write(System.getProperty("line.separator"));
+			}else {
+				int B =rbtree.minimum();
+				if(B>=Job_ID) {
+					// couldnot find
+					//System.out.println("(0,0,0)");
+					output.write("(0,0,0)");
+					output.write(System.getProperty("line.separator"));
+				}else {
+					int C=0;
+					while(B<Job_ID) {
+						if(rbtree.next(B)==null) {
+							// B is the biggest one
+							break;
+						}
+						C=rbtree.next(B);
+						B=C;
+					}
+					count=B;
+					for(int i=0;i<jobs.size();i++) {
+						if(jobs.get(i).processId==count) {
+							count=i;
+							break;// get the index
+						}
+					}
+					int E=0;
+					if(rbtree.previous(jobs.get(count).processId)==null) {
+						E=rbtree.minimum();
+					}else {
+						E= rbtree.previous(jobs.get(count).processId);
+					}
+					for(int i=0;i<jobs.size();i++) {
+						if(jobs.get(i).processId==E) {
+							count=i;
+							break;
+						}
+					}
+					//System.out.println("global_time : "+global_time+" ("+processes.get(count).processId+","+processes.get(count).execTime+","+processes.get(count).totalTime+")");
+					output.write("("+processes.get(count).processId+","+processes.get(count).execTime+","+processes.get(count).totalTime+")");
+					output.write(System.getProperty("line.separator"));
 				}
 			}
+			
+		}else {
+			if(jobs.get(count).processId<=rbtree.minimum()) {
+				//System.out.println("(0,0,0)");
+				output.write("(0,0,0)");
+				output.write(System.getProperty("line.separator"));
+			}
+			else{
+				int D=0;// changed here!!
+				if(rbtree.previous(jobs.get(count).processId)==null) {
+					D=rbtree.minimum();
+				}else {
+					D= rbtree.previous(jobs.get(count).processId);
+				}
+				for(int i=0;i<jobs.size();i++) {
+					if(jobs.get(i).processId==D) {
+						count=i;
+						break;
+					}
+				}
 			//System.out.println("global_time : "+global_time+" ("+processes.get(count).processId+","+processes.get(count).execTime+","+processes.get(count).totalTime+")");
 			output.write("("+processes.get(count).processId+","+processes.get(count).execTime+","+processes.get(count).totalTime+")");
 			output.write(System.getProperty("line.separator"));
+			}
 		}
 		output.close();
 	}
 	public static void scheduler(ArrayList<Process>processes,ArrayList<Process>jobs,int flag) {
-		//System.out.println("----------------Enter the scheduler--------------");
+		////System.out.println("----------------Enter the scheduler--------------");
 		if(node_count!=0 && flag==0) {// the tree is already built and the input file is not done
 			MinHeap<Long>heap=new MinHeap<>();
 			for(int i=0;i<node_count;i++) {
@@ -397,8 +545,8 @@ public class jobscheduler {
 					e.printStackTrace();
 				}
 			}
-			//System.out.println("The size of the heap 1 is "+heap.size());
-			//System.out.println(heap.toString());// print the heap
+			////System.out.println("The size of the heap 1 is "+heap.size());
+			////System.out.println(heap.toString());// print the heap
 			long e=heap.top();// find the top
 			int job=0;
 			for(int k=0;k<node_count;k++) {
@@ -417,7 +565,7 @@ public class jobscheduler {
 			}else if(left_time>5) {
 				global_time=global_time+5;
 				heap.pop(); // delete the top 
-				//System.out.println("the size of the heap is "+heap.size());
+				////System.out.println("the size of the heap is "+heap.size());
 				processes.set(job,new Process(hp,processes.get(job).processId,processes.get(job).execTime+5,processes.get(job).totalTime));
 				try {
 					heap.push(processes.get(job).execTime);// reenter into the tree 
@@ -428,46 +576,8 @@ public class jobscheduler {
 			}
 		}
 		if(flag==1) {  // there are no new jobs any more
-			/*
-			MinHeap<Long> heap=new MinHeap<>();
-			while(node_count>0) {
-				for(int i=0;i<node_count;i++) {
-					try {
-						heap.push(processes.get(i).execTime);// push the execution time into the tree
-					}
-					catch(Exception f) {
-						f.printStackTrace();
-					}
-				}
-				long e=heap.top();// find the top
-				int job=0;
-				for(int k=0;k<node_count;k++) {
-					if(e==processes.get(k).execTime) {
-						job=k;
-					}
-				}
-				long left_time=processes.get(job).totalTime-e;
-				if(left_time<5) {
-					global_time=global_time+e;// run the job and depatch it
-					heap.pop();// delete the job in the heap
-					processes.remove(job);// delete in the Arraylist
-					node_count--;
-				}else if(left_time>=5) {
-					global_time=global_time+5;
-					heap.pop();
-					processes.set(job,new Process(hp,processes.get(job).processId,processes.get(job).execTime+5,processes.get(job).totalTime));
-					try {
-						heap.push(processes.get(job).execTime);// reenter into the tree 
-				
-					}
-					catch(Exception g) {
-						g.printStackTrace();
-					}
-				}
-			}
-			*/
-			// job finished!!
-			System.out.println("Job Finished!");			
+			//System.out.println("----------------------------------------");
+			//System.out.println("Job Finished!");			
 		}
 		if(flag==0 && node_count==0) {
 			global_time++;

@@ -1,0 +1,7 @@
+[1] The counter variable "count" change it from 1000 to 2000;[including the counter in each function]
+    Since the number of jobs is larger than 1000. SO the orginal codes has the faault of: "OutofIndexBoundary"
+[2] Add the statement "null" to reduce the fault of "NullPointerException"
+    Since sometimes we get"null" return. So we need to judge it. [including in each function]
+
+
+Results Now : There is only one little part different: Because the running order of jobs is not specific. So the it will has the difference between execution time(12 ,15)

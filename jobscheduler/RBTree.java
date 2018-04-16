@@ -142,6 +142,8 @@ public class RBTree<T extends Comparable<T>> {
     public T next(T key) {
     	RBTNode<T>x=search(key);
         // if the right child exists 
+    	if(x==mRoot || x==null)
+    		return null;
         if (x.right != null)
             return minimum(x.right).key;
         // if there is no right child
@@ -158,7 +160,10 @@ public class RBTree<T extends Comparable<T>> {
      * find the previous node
      */
     public T previous(T key) {
+    	
     	RBTNode<T> x=search(key);
+    	if(x==mRoot || x==null)
+    		return null;
         // left child"。
         if (x.left != null)
             return maximum(x.left).key;
